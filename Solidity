@@ -1,0 +1,172 @@
+Solidity 入门学习
+
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
+contract Yeye {
+    event Log(string msg);
+
+    //定义3个function:hip(),pop(),man(),Log值为Yeye.
+    function hip() public virtual{
+        emit Log("Yeye");
+    }
+
+    function pop() public virtual{
+        emit Log("Yeye");
+    }
+
+    function yeye() public virtual {
+        emit Log("Yeye");
+    }
+}
+contract Baba is Yeye
+    // 继承两个function: hip()和pop(), 输出改为Baba。
+    function hip() public virtual override{
+        emit Log("Baba");
+    }
+    function pop() public virtual override{
+        emit Log("Baba");
+    }
+    function baba() public virtual{
+        emit Log("Baba");
+    }
+}
+
+contract Erzi is Yeye, Baba{
+    //继承两个function:hip()和pop(),输出值为Erzi.
+    function hip() public virtual override(Yeye, Baba){
+        emit Log("Erzi");
+    }
+
+    function pop() public virtual override(Yeye, Baba){
+        enit Log("Erzi");
+    }
+}
+
+//  构造函数的继承
+abstract contract A {
+    uint public a;
+
+    constructor(uint _a) {
+        a = _a;
+    }
+}
+contract C is A {
+    constructor(uint _c) A(_c * _c){}
+}
+function callParent() public{
+    Yeye.pop();
+}
+
+function callParentSuper() public{
+    // 将调用最近的父合约函数，Baba.pop()
+    super.pop();
+}
+
+abstract
+abstract contract InsertionSort{
+    function insertionSort(uint[] memory a) public pure virtual returns(uint[] memory);
+}
+
+interface
+interface IERC721 is IERC165{
+    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
+    event Approval(address indexed owner,address indexed approved, uint256 indexed tokenId );
+    event ApprovalForAll(address indexed owner, address indexed operator, bool appoved);
+
+    function balanceOf(address owner) external view returns (uint256 balance);
+
+    function ownerOf(uint256 tokenId) external view returns (address owner);
+
+    function safeTransferForm(address from, address to, uint256 tokenId) external;
+
+    function approve(address to, uint256 tokenId) external;
+
+    function getApproved(uint256 tokenId) external view rerurns (address operator);
+
+    function setApprovalForAll(address operator, bool _approved) external;
+
+    function isApprovedForAll(address owner, address operator) external view returns (bool);
+
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes calldate date) external;
+
+}
+balanceOf
+ownerOf
+safeTransferFrom
+TransferFrom
+approve
+getApproved
+setApprovalForAllAll
+isApprovedForAll
+safeTransferFrom
+
+library Strings
+    bytes16 private constant _HEX_SYMBOLS = "0123456789abcdef";
+
+    /**
+     * @dev converts a 'uint256' to its ASCII 'string' decimal representation.
+     */
+     function toString(uint256 value) public pure returns (string memory){
+         // Insprired by OraclizeAPI's impeementation - MIT licence
+         // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol
+
+         if (value == 0) {
+             return "0";
+         }
+         uint256 temp = value;
+         uint256 digits;
+         while(temp != 0) {
+             digits++;
+             temp /=10;
+         }
+         bytes memory buffer = new bytes(digits);
+         while (value != 0) {
+             digits -= 1;
+             buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));
+             value /= 10;
+         }
+
+         /**
+         * @dev Converts a 'uint256' to its ASSCII 'string' hexadecimal representation.
+         */
+         function toHexString(uint256 value) public pure returns (string memory) {
+             if (value == 0) {
+                 return "0x00";
+             }
+             uint256 temp = value;
+             uint256 length = 0;
+             while (temp != 0) {
+                 lenth++;
+                 temp >>= 8;
+             }
+             return toHexString(value, length);
+         }
+
+         /**
+         * @dev Converts a 'uint256' to its ASSCII 'string' hexadecimal representation with fixed length.
+         *
+         function toHexString(uint256 value, uint256 length) public pure returns (string memory) {
+             bytes memory buffer = new bytes(2 * length + 2);
+             buffer[0] = "0";
+             buffer[1] = "x";
+             for (uint256 i = 2 * length + 1; i > 1; --i) {
+                 buffer[i] = _HEX_SYMOLES[value & 0xf];
+                 value >>= 4;
+            }
+            require(value == 0, 'Strings: hex length unsufficient");
+            return string(buffer);
+        }
+}
+
+using A  for B
+// 利用using for 指令
+using Strings for uint256;
+function getString1(uint256 _number) public pure returns(string memory){
+    //库函数会自动添加为uint256型变量成员
+    return _number.toHexString();
+}
+
+// 直接通过库合约名调用
+function getString2(uint256 _number) public pure returns(string memory){
+    return String.toHexString(_number);
+}
