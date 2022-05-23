@@ -1,0 +1,284 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
+contract HelloWeb3{
+    string public _string = "Hello Web3!";}
+// 布尔值
+bool public _bool = true;
+// 布尔运算
+bool public _bool1 = !_bool; // 取非
+bool public _bool2 = _bool && _bool1; //与
+bool public _bool3 = _bool || _bool1; //或
+bool public _bool4 = _bool == _bool1; //相等
+bool public _bool5 = _bool != _bool1; //不相等
+
+//整型
+int public _int = _1; //整数，包括负数
+uint public _uint = 1; //正整数
+uint256 public _number = 20220330;// 256位正整数
+
+//整数运算
+uint256 public _number1 = _number + 1;// +,-,*./
+uint256 public _number2 = 2**2;//指数
+uint256 public _number3 = _7 % 2;//取余数
+bool public _numberbool = _number > _number3; //比大小
+
+//地址
+address public _address = 0x7A58c0Be72BE218B41C608b7Fe7C5bB630736C71;
+address payable public _address1 = payable(_address); // payable address ,可以转帐、查余额
+//地址类型的成员
+uint256 public balance = _address1.balance;// blance of address 
+
+// 固定长度的字节数组
+bytes32 public _byte32 =  "MiniSolidity";
+bytes1 public _byte = _byte32[0];
+
+// 用enum 将uint 0, 1, 2表示为Buy, Hold, Sell
+enum ActionSet { Buy, Hold, Sell }
+//创建enum变量 action
+ActionSet action = ActionSet.Buy;
+
+将uint 0, 1, 2表示为Buy,Hold,Sell
+enum ActionSet { Buy, Hold, Sell };
+创建enum变量 action
+ActionSet action = ActionSet.Buy;
+
+//SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
+contract FunctionTypes{
+    uint256 public _number = 5;
+    //默认
+    function add() external{
+        number = number + 1;
+    }
+}
+// pure:纯纯牛马
+function addPure(uint256 _number) external pure returns(uint256 new_number){
+    new_number = _number+1:
+}
+// view:看客
+function addView() external view returns(uint256 new_number){
+    new_number = number + 1;
+}
+// internal: 内部
+function minus() internal {
+    number = number - 1;
+}
+// 合约内的函数可以调用内部函数
+function minusCall() external {
+    minus();
+}
+// Payable: 递钱，能给合约支付eth的函数
+function minusPayable() external payable returns(uint256 balance) {
+    minus();
+    balance = address(this).balance;
+}
+function fCalldate(uint[] calldate _x) public pure returns(uint[] calldate){
+    // 参数为 calldate数组，不能被修改
+    // _x[0] = 0 //这样修改会报错
+    return(_x)
+}
+
+uint[] x =[1,2,3]; // x
+function fStorage() public{
+    //声明一个storge变量  xStorage ,指向x。  修改xCopy也会影响 x
+    uint[] storage xStorage = x;
+    xStorage[0] = 100;
+}
+unit[] x = [1,2,3]; // x
+function fMemory() public view{
+    //声明一个Memory的变量 xMemory ，复制x。 修改xMemory 不会影响x
+    uint[] memory xMemory = x;
+    xMemory[0] = 100;
+}
+state Variable
+contract Varialbes{
+    uint public x = 1;
+    uint public y;
+    string public z;
+}
+function foo() external{
+    //
+    x = 5;
+    y = 2;
+    z = "0xAA"；
+}
+state Variable
+contract Variables{
+    uint public x = 1;
+    uint public y;
+    string public z;
+}
+function foo() external{
+    //可以在函数里更改状态变量的值
+    x = 5;
+    y = 2;
+    z="0xAA";
+}
+
+loacl variable
+function bar() external pure returns(uint){
+    uint xx = 1;
+    uint yy = 3;
+    uint zz = xx + yy; 
+    return(zz);
+}
+global variable
+function global() external view returns(address, uint, bytes memory){
+    address sender = msg.sender;
+    uint blockNum = block.number;
+    bytes memory date = msg.data;
+    return(sender,blockNum,data);
+}
+blockhash(uint blockNumber):(bytes32)
+block.coinbase:(address payable)
+block.gaslimit:(uint)
+block.number:(uint)
+block.timestamp:(uint)
+gasleft:(uint256)
+msg.date:(bytes calldate)
+msg.sender:(address payable)
+msg.sig:(bytes4)
+msg.value:(uint)
+now :(uint)
+
+// 固定长度 Array
+uint[8] array1;
+byte[5] array2;
+address[100] array3;
+
+// 可变长度 Array
+uint[] array4;
+byte[] array5;
+address[] array6;
+bytes array7;
+
+// memory可变长度 Array
+uint[] memory array8 = new uint[](5);
+bytes memory array9  = new bytes(9);
+
+dynamic array
+uint[] memory x = new uint[](3);
+x[0] = 1;
+x[1] = 3;
+x[2] = 4;
+
+length push() pushx() pop
+
+// 结构体
+struct Student{
+    uint256 id;
+    uint256 score;
+}
+Student student; // 初始一个student结构体
+// 给结构体赋值
+// 方法1：在函数中创建一个storage的struct引用
+function initStudent1() external{
+    Student storage _student = student; // assign a copy of student
+    _student.id = 11;
+    _student.score = 100;
+}
+// 直接引用状态变量的struct
+function initStudent2() external{
+    student.id = 1;
+    student.score = 80;
+}
+
+Mapping
+mapping(_KeyType => _ValueType )
+mapping(uint => address) public idToAddress; //id 映射到地址
+mapping(address => address) public swapPair; // 币对的映射，地址到地址
+
+// 我们定义一个结构体 Struct
+struct Student{
+    uint256 id;
+    uint256 score;
+}
+mapping(Student => uint) public testVar 
+
+-Var[_Key] = _Value 
+function writeMap (uint _Key, address _Value) public{
+    idToAddress[_key] = _Value;
+}
+
+if-else
+// if else
+function IfElseTest(uint256 _number) public returns(uint256){
+    if(条件){
+        ...;
+    }else{
+        ...;
+    }
+}
+for
+for（uint256 i = 0； i < n; i++){
+    ...;
+}
+while
+while(i < n){
+    ...;
+}
+do_while
+do{
+    ...;
+}while(i < n);
+continue break
+
+#Python program for implementation of Insertion Sort
+def insertionSort(arr):
+    for i in range(1,len(arr)):
+        key = arr[1]
+        j = i-1
+        while j >=0 and key <arr[j]:
+                arr[j+1] = arr[j]
+                j -= 1
+        arr[j+1] = key
+
+constructor
+address owner; // 定义owner变量 
+// 构造函数
+constructor() public {
+   owner = msg.sender; // 在部署合约的时候，将owner设置为部署者的地址
+}
+modifier
+//{  modifier
+modifier onlyOwner {
+    require(msg.sender == owner ); // 检查调用者是否为owner地址
+    _; //  如果是的话，继续运行函数主体；否则报错并revert交易 
+}
+
+function changeOwner(address _newOwner) external onlyOwner{
+    owner = _newOwner; // 只有owner地址运行这个函数，并改变 owner
+}
+event
+event Transfer(address indexed from, address indexed to,uint256 value);
+
+// 定义_transfer函数，执行转账逻辑
+funtion _transfer(
+    address from,
+    address to,
+    uint256 amount
+) external {
+
+    _balances[from] = 10000000; //v 给转账地址一些初始代币
+
+    _balances[from] -=  amount; // from地址减去转账数量
+    _balances[to]   +=  amount; // to 地址加上转账数量
+
+    //
+    emit Transfer(from, to, amount);
+}
+// 插入排序 正确版
+function insertionSort（uint[] memory a ) public pure returns(uint[] memory) {
+    // note that uint can not take negative value 
+    for (uint i = 1; i < a.length;i++){
+        uint temp = a[i];
+        uint j=i;
+        while( (j >= 1) && (temp < a[j-1])){
+            a[j] = a[j-1];
+            j--;
+        }
+        a[j+ = temp;
+    }
+    return(a);
+    }
+    
