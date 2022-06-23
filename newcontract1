@@ -1,0 +1,280 @@
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.4;
+contract Yeye {
+    event Log(string msg);
+
+    //定义3个function:hip(),pop(),man(),Log值为Yeye.
+    function hip() public virtual{
+        emit Log("Yeye");
+    }
+
+    function pop() public virtual{
+        emit Log("Yeye");
+    }
+
+    function yeye() public virtual {
+        emit Log("Yeye");
+    }
+}
+contract Baba is Yeye
+    // 继承两个function: hip()和pop(), 输出改为Baba。
+    function hip() public virtual override{
+        emit Log("Baba");
+    }
+    function pop() public virtual override{
+        emit Log("Baba");
+    }
+    function baba() public virtual{
+        emit Log("Baba");
+    }
+}
+
+contract Erzi is Yeye, Baba{
+    //继承两个function:hip()和pop(),输出值为Erzi.
+    function hip() public virtual override(Yeye, Baba){
+        emit Log("Erzi");
+    }
+
+    function pop() public virtual override(Yeye, Baba){
+        enit Log("Erzi");
+    }
+}
+
+//  构造函数的继承
+abstract contract A {
+    uint public a;
+
+    constructor(uint _a) {
+        a = _a;
+    }
+}
+contract C is A {
+    constructor(uint _c) A(_c * _c){}
+}
+function callParent() public{
+    Yeye.pop();
+}
+
+function callParentSuper() public{
+    // 将调用最近的父合约函数，Baba.pop()
+    super.pop();
+}
+
+abstract
+abstract contract InsertionSort{
+    function insertionSort(uint[] memory a) public pure virtual returns(uint[] memory);
+}
+
+interface
+interface IERC721 is IERC165{
+    event Transfer(address indexed from, address indexed to, uint256 indexed tokenId);
+    event Approval(address indexed owner,address indexed approved, uint256 indexed tokenId );
+    event ApprovalForAll(address indexed owner, address indexed operator, bool appoved);
+
+    function balanceOf(address owner) external view returns (uint256 balance);
+
+    function ownerOf(uint256 tokenId) external view returns (address owner);
+
+    function safeTransferForm(address from, address to, uint256 tokenId) external;
+
+    function approve(address to, uint256 tokenId) external;
+
+    function getApproved(uint256 tokenId) external view rerurns (address operator);
+
+    function setApprovalForAll(address operator, bool _approved) external;
+
+    function isApprovedForAll(address owner, address operator) external view returns (bool);
+
+    function safeTransferFrom(address from, address to, uint256 tokenId, bytes calldate date) external;
+
+}
+balanceOf
+ownerOf
+safeTransferFrom
+TransferFrom
+approve
+getApproved
+setApprovalForAllAll
+isApprovedForAll
+safeTransferFrom
+
+library Strings
+    bytes16 private constant _HEX_SYMBOLS = "0123456789abcdef";
+
+    /**
+     * @dev converts a 'uint256' to its ASCII 'string' decimal representation.
+     */
+     function toString(uint256 value) public pure returns (string memory){
+         // Insprired by OraclizeAPI's impeementation - MIT licence
+         // https://github.com/oraclize/ethereum-api/blob/b42146b063c7d6ee1358846c198246239e9360e8/oraclizeAPI_0.4.25.sol
+
+         if (value == 0) {
+             return "0";
+         }
+         uint256 temp = value;
+         uint256 digits;
+         while(temp != 0) {
+             digits++;
+             temp /=10;
+         }
+         bytes memory buffer = new bytes(digits);
+         while (value != 0) {
+             digits -= 1;
+             buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));
+             value /= 10;
+         }
+
+         /**
+         * @dev Converts a 'uint256' to its ASSCII 'string' hexadecimal representation.
+         */
+         function toHexString(uint256 value) public pure returns (string memory) {
+             if (value == 0) {
+                 return "0x00";
+             }
+             uint256 temp = value;
+             uint256 length = 0;
+             while (temp != 0) {
+                 lenth++;
+                 temp >>= 8;
+             }
+             return toHexString(value, length);
+         }
+
+         /**
+         * @dev Converts a 'uint256' to its ASSCII 'string' hexadecimal representation with fixed length.
+         *
+         function toHexString(uint256 value, uint256 length) public pure returns (string memory) {
+             bytes memory buffer = new bytes(2 * length + 2);
+             buffer[0] = "0";
+             buffer[1] = "x";
+             for (uint256 i = 2 * length + 1; i > 1; --i) {
+                 buffer[i] = _HEX_SYMOLES[value & 0xf];
+                 value >>= 4;
+            }
+            require(value == 0, 'Strings: hex length unsufficient");
+            return string(buffer);
+        }
+}
+
+using A  for B
+// 利用using for 指令
+using Strings for uint256;
+function getString1(uint256 _number) public pure returns(string memory){
+    //库函数会自动添加为uint256型变量成员
+    return _number.toHexString();
+}
+
+// 直接通过库合约名调用
+function getString2(uint256 _number) public pure returns(string memory){
+    return String.toHexString(_number);
+}
+
+overloading.sol
+
+function saySomething() public pure returns(string memory){
+    return("Nothing");
+}
+
+function saySomething(string memory something) public pure returns(string memory){
+    return(something);
+}
+
+function f(uint8 _in) public pure returns (uint8 out) {
+     out = _in;
+ }
+
+ function f(uint256 _in) public pure returns (uint256 out) {
+     out =  _in;
+ }
+
+ // 16 ETH receive and fallback
+ // 定义事件
+ event Received(address Sender, uint value);
+ //接收ETH时释放Received 事件
+ receive() external payable {
+     emit Received(msg.sender, msg.value);
+}
+
+// fallback  
+fallback() external paybale{
+    emit fallbackCalled(msg.sender, msg.value, msg.date);
+}
+
+// ETH transfer, send and call
+contract ReceiveETH {
+    // 收到eth事件 记录amount和gas
+    event Log(uint amount, uint gas);
+
+    //receive方法，接收 eth时被触发
+    receive() external payable{
+        emit Log(msg.value, gasleft());
+    }
+
+    // 返回合约ETH余额
+    function getBalance() view public returns(uint) {
+        return address(this).balance;
+    }
+}
+
+contract SendETH {
+    // 构造函数，payable使得部署的时候可以转eth进去
+    constructor() apyable{}
+    // receive 方法，接收eth时被触发 
+    receive() external payable{}
+
+// 用transfer()发送 ETH
+function transferETH(address payable _to, uint256 amount) external paybale{
+    _to.transfer(amount);
+}
+
+//  send() 发送ETH
+     function sendETH(address payable _to, uint256 amount) external{
+     //处理send的返回值，如果失败， revert交易并发送 error
+     bool success =  _to.send(amount);
+     if(!success){
+         revert SendFailed();
+    }
+}
+
+call 
+// call() ETH
+function callETH(address payable _to, uint256 amount) external payanle{
+    // call revert error 
+    (bool success,) = _to.call{value: amount}(" ");
+    if(!success){
+        revert CallFailed();
+    }
+}  
+
+18 函数输出 return
+contract Return{
+    // 返回多个变量
+    function returnMultiple() public pure returns(uint256, bool, uint256[3] memory){
+        return(1, true, [uint256(1),2,5]);
+    }
+
+    // 命名式返回
+    function returnNamed() public pure returns(uint256 _number , bool _bool, uint256[3] memory _array){
+        _number = 2;
+        _bool = false;
+        _array = [uint256(3),2,1];
+    }
+
+    // 命名式返回，依然支持return
+    function returnNamed2() public pure returns(uint256 _number, bool _bool, uint256[3] memory _array){
+        return(1, true, [uint256(1),2,5]);
+    }
+
+    // 读取返回值，解构式赋值
+    function readReturn() public pure{
+        // 读取全部返回值
+        uint256 _number;
+        bool _bool;
+        uint256[3] memory _array;
+        (_number, _bool, _array) = returnNamed();
+
+    // 读取部分返回值，解构式赋值
+    (,  _bool, ) =  returnNamed();
+    }
+}
+
