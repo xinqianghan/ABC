@@ -1,0 +1,67 @@
+Address 库
+
+function isContract(address account) internal view returns (bool) {
+    return account.code.length > 0;
+}
+
+function _checkOnERC721Received(
+    address from,
+    address to,
+    uint256 tokenId,
+    bytes memory _data
+) private returns (bool) {
+    if(to.isContract()) {
+        try IERC721Receiver(to).onERC721Received(_msgSender(), from, tokenId, _data) returns (bytes4 retval) {
+            return retval == IERC721Receiver.onERC721Received.selector;
+        } catch (bytes memory reason) {
+            if (reason.length == 0){
+                revert("ERC721: transfer to non ERC721Receiver implement");
+            } else {
+                assemly {
+                    revert(add(32, reason), mload(reason))
+                }
+            }
+        }
+    } else {
+        return true;
+    }
+}
+
+Context 库
+abstract contract Context {
+    function _msgSender() internal view virtual returns (address) {
+        return msg.sender;
+    }
+
+    function _msgData() internal view virtual returns (bytes calldata){
+        return msg.data;
+    }
+}
+
+Strings库
+
+function toString(uint256 value) internal pure returns (string memory) {
+    if (value == 0) {
+        return "0";
+    }
+    uint256 temp = value;
+    uint256 digits;
+    while (temp != 0){
+        digits++;
+        temp /= 10;
+    }
+    bytes memory buffer = new bytes(digits);
+    while (value !=0){
+        digits -= 1;
+        buffer[digits] = bytes1(uint8(48 + uint256(value % 10)));
+        value /= 10;
+    }
+    return string(buffer);
+}
+
+function tokenURL(uint256 tokenId) public view virtual override (string memory){
+    require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
+
+    string memory baseURI = _baseURI();
+    return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI, tokenId.toString())): "";
+}
